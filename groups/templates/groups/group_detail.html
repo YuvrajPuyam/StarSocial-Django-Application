@@ -1,0 +1,36 @@
+{% extends "groups/group_base.html" %}
+{% block pregroup %} 
+
+   <h1>{{group.name}} &nbsp </h1> 
+   
+   <h2>Member Numbers: {{group.members.count}}</h2>
+
+   <div class="content">
+       {% if user in group.members.all %}
+        <a href="{% url 'groups:leave' slug=group.slug %} " class='btn btn-lg btn-fill btn-warning'>
+            <svg class="bi bi-x-circle-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
+              </svg>
+              Leave
+        </a>
+        {% else %}
+        <a href="{% url 'groups:join' slug=group.slug %}" class='btn btn-lg btn-fill btn-warning'>
+            <svg class="bi bi-heart-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+              </svg>
+              Join
+        </a>
+       {% endif %}
+   </div>
+{% endblock %}
+
+
+{% block group_content %}
+   {% if groups.post.count == 0 %}
+    <h2>No Posts in this group.</h2>
+   {% else %}
+    {% for posts in groups.post.all %}
+    {% include "_post.html"%}
+    {% endfor %}
+   {% endif %}
+{% endblock %}
